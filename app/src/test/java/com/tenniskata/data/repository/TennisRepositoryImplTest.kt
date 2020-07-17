@@ -21,12 +21,16 @@ class TennisRepositoryImplTest {
     fun `initially for both players the points should be Love`() {
         //When
         //Then
-        val player1Points = classUnderTest.getPoints(Player.PLAYER_1)
-        val player2Points = classUnderTest.getPoints(Player.PLAYER_2)
 
         //Verify
-        Assert.assertEquals(Points.LOVE, player1Points)
-        Assert.assertEquals(Points.LOVE, player2Points)
+        assertScores(Points.LOVE, Points.LOVE)
+    }
+
+    private fun assertScores(expectedPlayer1Points: Points, expectedPlayer2Points: Points) {
+        val player1Points = classUnderTest.getPoints(Player.PLAYER_1)
+        val player2Points = classUnderTest.getPoints(Player.PLAYER_2)
+        Assert.assertEquals(expectedPlayer1Points, player1Points)
+        Assert.assertEquals(expectedPlayer2Points, player2Points)
     }
 
     @Test
@@ -35,7 +39,12 @@ class TennisRepositoryImplTest {
         //Then
         classUnderTest.increasePoint(Player.PLAYER_1)
         //Verify
-        val points = classUnderTest.getPoints(Player.PLAYER_1)
-        Assert.assertEquals(Points.FIFTEEN, points)
+
+        assertScores(Points.FIFTEEN, Points.LOVE)
+        //When
+        //Then
+        classUnderTest.increasePoint(Player.PLAYER_2)
+        //Verify
+        assertScores(Points.FIFTEEN, Points.FIFTEEN)
     }
 }
