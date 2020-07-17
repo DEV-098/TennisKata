@@ -1,7 +1,8 @@
-package com.tenniskata
+package com.tenniskata.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.tenniskata.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
