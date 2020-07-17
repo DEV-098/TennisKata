@@ -2,7 +2,7 @@ package com.tenniskata.data
 
 data class Player(val name: String)
 
-enum class Points(val text: String, val points: Int, val position: Int) {
+enum class Points(val text: String, val points: Int, val numberOfBallWins: Int) {
     LOVE("Love", 0, 0),
     FIFTEEN("Fifteen", 15, 1),
     THIRTY("Thirty", 30, 2),

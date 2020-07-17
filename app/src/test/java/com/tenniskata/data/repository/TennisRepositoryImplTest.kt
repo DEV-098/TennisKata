@@ -65,9 +65,10 @@ class TennisRepositoryImplTest {
     }
 
     @Test(expected = IllegalStateException::class)
-    fun `when increasePoint is called 4 time getPoints should throw IllegalStateException`() {
+    fun `when increasePoint is called 5 time getPoints should throw IllegalStateException`() {
         //When
         //Then
+        classUnderTest.increasePoint(player1)
         classUnderTest.increasePoint(player1)
         classUnderTest.increasePoint(player1)
         classUnderTest.increasePoint(player1)
@@ -104,7 +105,7 @@ class TennisRepositoryImplTest {
     }
 
     @Test
-    fun `when GameStarts and both player scored exactly 3 times and then player1 scores advantage the game should be in deuce state`() {
+    fun `when GameStarts and both player scored exactly 3 times and then player1 scores advantage the game should be in Advantage state`() {
         //when
         //then
         classUnderTest.increasePoint(player1)
@@ -117,5 +118,46 @@ class TennisRepositoryImplTest {
         //verify
         assert(result is GameState.Advantage)
         Assert.assertEquals(player1, (result as GameState.Advantage).player)
+    }
+
+
+    @Test
+    fun `when GameStarts and both player scored exactly 2 times and then player1 scores twice  the game should be in won by Player 1`() {
+        //when
+        //then
+        classUnderTest.increasePoint(player1)
+        classUnderTest.increasePoint(player2)
+        classUnderTest.increasePoint(player1)
+        classUnderTest.increasePoint(player2)
+        classUnderTest.increasePoint(player1)
+        val result = classUnderTest.increasePoint(player1)
+        //verify
+        assert(result is GameState.PlayerWins)
+        Assert.assertEquals(player1, (result as GameState.PlayerWins).player)
+    }
+
+
+    @Test
+    fun `when GameStarts and both player scored exactly 3 times and then player1 scores once Player 2 scores once and then Player 1 scores twice  the game should be in won by Player 1`() {
+        //when
+        //then
+        classUnderTest.increasePoint(player1)
+        classUnderTest.increasePoint(player2)
+        classUnderTest.increasePoint(player1)
+        classUnderTest.increasePoint(player2)
+        classUnderTest.increasePoint(player1)
+        classUnderTest.increasePoint(player2)
+        //So the Game should be in deuce
+        classUnderTest.increasePoint(player1)
+        //Player 1 is in advantage
+        classUnderTest.increasePoint(player2)
+        //Player2 makes it deuce again
+        classUnderTest.increasePoint(player1)
+        //Player 1 took advantage
+        val result = classUnderTest.increasePoint(player1)
+        //Player 1 should win
+        //verify
+        assert(result is GameState.PlayerWins)
+        Assert.assertEquals(player1, (result as GameState.PlayerWins).player)
     }
 }

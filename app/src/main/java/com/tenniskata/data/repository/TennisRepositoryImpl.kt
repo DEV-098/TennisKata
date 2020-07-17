@@ -5,22 +5,32 @@ import com.tenniskata.data.Player
 import com.tenniskata.data.Points
 
 class TennisRepositoryImpl : TennisRepository {
-    private var player1Points: Int = Points.LOVE.position
-    private var player2Points: Int = Points.LOVE.position
+    private var player1Points: Int = Points.LOVE.numberOfBallWins
+    private var player2Points: Int = Points.LOVE.numberOfBallWins
     private lateinit var player1: Player
     private lateinit var player2: Player
 
     override fun startGame(player1: Player, player2: Player) {
         this.player1 = player1
         this.player2 = player2
-        player1Points = Points.LOVE.position
-        player2Points = Points.LOVE.position
+        player1Points = Points.LOVE.numberOfBallWins
+        player2Points = Points.LOVE.numberOfBallWins
     }
 
     override fun increasePoint(player: Player): GameState {
-        when (player) {
-            player1 -> player1Points++
-            player2 -> player2Points++
+        val state = getState()
+        if (state is GameState.Advantage) {
+            if (player != state.player) {
+                player1Points = Points.FORTY.numberOfBallWins
+                player2Points = Points.FORTY.numberOfBallWins
+            } else {
+                return GameState.PlayerWins(player)
+            }
+        } else {
+            when (player) {
+                player1 -> player1Points++
+                player2 -> player2Points++
+            }
         }
         return getState()
     }
@@ -28,14 +38,39 @@ class TennisRepositoryImpl : TennisRepository {
     private fun getState(): GameState {
         return when {
             isAnyPlayerAbsent() -> GameState.GameNotStarted
-            isInProgress() -> GameState.InProgress(getPoints(player1), getPoints(player2))
+            isAnyOneWon() -> GameState.PlayerWins(getWinner())
+            isAdvantage() -> GameState.Advantage(getHigherPointsPlayer())
             isDeuce() -> GameState.Deuce
-            isAdvantage() -> GameState.Advantage(getAdvantagePlayer())
-            else -> throw IllegalStateException("No Proper State")
+            isInProgress() -> GameState.InProgress(getPoints(player1), getPoints(player2))
+
+            else -> throw IllegalStateException("This state should not be reached")
+
         }
     }
 
-    private fun getAdvantagePlayer(): Player {
+    private fun isAnyOneWon(): Boolean {
+        return higherPoints() >= Points.ADVANTAGE.numberOfBallWins && pointDiffs() > 1
+    }
+
+    private fun pointDiffs(): Int {
+        return kotlin.math.abs(player1Points - player2Points)
+    }
+
+    private fun higherPoints(): Int {
+        return getPoints(getHigherPointsPlayer()).numberOfBallWins
+    }
+
+    private fun getWinner(): Player {
+        return if (player1Points == Points.ADVANTAGE.numberOfBallWins && player1Points - player2Points > 1) {
+            player1
+        } else if (player2Points == Points.ADVANTAGE.numberOfBallWins && player2Points - player1Points > 1) {
+            player2
+        } else {
+            throw IllegalStateException("Game is in progress")
+        }
+    }
+
+    private fun getHigherPointsPlayer(): Player {
         return if (player1Points > player2Points) {
             player1
         } else {
@@ -44,16 +79,18 @@ class TennisRepositoryImpl : TennisRepository {
     }
 
     private fun isAdvantage(): Boolean {
-        return getPoints(player1) == Points.ADVANTAGE ||
-                getPoints(player2) == Points.ADVANTAGE
+        return (player1Points == Points.ADVANTAGE.numberOfBallWins
+                && player2Points == Points.FORTY.numberOfBallWins) ||
+                (player2Points == Points.ADVANTAGE.numberOfBallWins
+                        && player1Points == Points.FORTY.numberOfBallWins)
     }
 
     private fun isDeuce(): Boolean {
-        return player1Points == Points.FORTY.position && player2Points == Points.FORTY.position
+        return player1Points == Points.FORTY.numberOfBallWins && player2Points == Points.FORTY.numberOfBallWins
     }
 
     private fun isInProgress(): Boolean {
-        return player1Points < Points.FORTY.position || player2Points < Points.FORTY.position
+        return player1Points < Points.ADVANTAGE.numberOfBallWins && player2Points < Points.ADVANTAGE.numberOfBallWins
     }
 
     private fun isAnyPlayerAbsent(): Boolean {
@@ -68,11 +105,11 @@ class TennisRepositoryImpl : TennisRepository {
             player2Points
         }
         return when (playerPoints) {
-            Points.LOVE.position -> Points.LOVE
-            Points.FIFTEEN.position -> Points.FIFTEEN
-            Points.THIRTY.position -> Points.THIRTY
-            Points.FORTY.position -> Points.FORTY
-            Points.ADVANTAGE.position -> Points.ADVANTAGE
+            Points.LOVE.numberOfBallWins -> Points.LOVE
+            Points.FIFTEEN.numberOfBallWins -> Points.FIFTEEN
+            Points.THIRTY.numberOfBallWins -> Points.THIRTY
+            Points.FORTY.numberOfBallWins -> Points.FORTY
+            Points.ADVANTAGE.numberOfBallWins -> Points.ADVANTAGE
             else -> throw IllegalStateException("Invalid Points")
         }
     }
