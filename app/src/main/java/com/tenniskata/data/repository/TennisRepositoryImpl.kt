@@ -8,13 +8,13 @@ class TennisRepositoryImpl : TennisRepository {
     var player2Points: Int = 0
     override fun increasePoint(player: Player) {
         when (player) {
-            Player.PLAYER_1 -> player1Points++
-            Player.PLAYER_2 -> player2Points++
+            is Player.Player1 -> player1Points++
+            is Player.Player2 -> player2Points++
         }
     }
 
     override fun getPoints(player: Player): Points {
-        val playerPoints = if (player == Player.PLAYER_1) {
+        val playerPoints = if (player is Player.Player1) {
             player1Points
         } else {
             player2Points

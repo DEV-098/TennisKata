@@ -11,7 +11,8 @@ import org.junit.runners.BlockJUnit4ClassRunner
 @RunWith(BlockJUnit4ClassRunner::class)
 class TennisRepositoryImplTest {
     lateinit var classUnderTest: TennisRepositoryImpl
-
+    private val player1 = Player.Player1("Player 1")
+    private val player2 = Player.Player2("Player 2")
     @Before
     fun setup() {
         classUnderTest = TennisRepositoryImpl()
@@ -27,8 +28,8 @@ class TennisRepositoryImplTest {
     }
 
     private fun assertScores(expectedPlayer1Points: Points, expectedPlayer2Points: Points) {
-        val player1Points = classUnderTest.getPoints(Player.PLAYER_1)
-        val player2Points = classUnderTest.getPoints(Player.PLAYER_2)
+        val player1Points = classUnderTest.getPoints(player1)
+        val player2Points = classUnderTest.getPoints(player2)
         Assert.assertEquals(expectedPlayer1Points, player1Points)
         Assert.assertEquals(expectedPlayer2Points, player2Points)
     }
@@ -37,13 +38,13 @@ class TennisRepositoryImplTest {
     fun `when increasePoint is called once getPoints should return Points_Fifteen`() {
         //When
         //Then
-        classUnderTest.increasePoint(Player.PLAYER_1)
+        classUnderTest.increasePoint(player1)
         //Verify
 
         assertScores(Points.FIFTEEN, Points.LOVE)
         //When
         //Then
-        classUnderTest.increasePoint(Player.PLAYER_2)
+        classUnderTest.increasePoint(player2)
         //Verify
         assertScores(Points.FIFTEEN, Points.FIFTEEN)
     }
@@ -52,9 +53,9 @@ class TennisRepositoryImplTest {
     fun `when increasePoint is called 3 time getPoints should return Points_Forty`() {
         //When
         //Then
-        classUnderTest.increasePoint(Player.PLAYER_1)
-        classUnderTest.increasePoint(Player.PLAYER_1)
-        classUnderTest.increasePoint(Player.PLAYER_1)
+        classUnderTest.increasePoint(player1)
+        classUnderTest.increasePoint(player1)
+        classUnderTest.increasePoint(player1)
         //Verify
 
         assertScores(Points.FORTY, Points.LOVE)
@@ -64,11 +65,11 @@ class TennisRepositoryImplTest {
     fun `when increasePoint is called 4 time getPoints should throw IllegalStateException`() {
         //When
         //Then
-        classUnderTest.increasePoint(Player.PLAYER_1)
-        classUnderTest.increasePoint(Player.PLAYER_1)
-        classUnderTest.increasePoint(Player.PLAYER_1)
-        classUnderTest.increasePoint(Player.PLAYER_1)
-        classUnderTest.getPoints(Player.PLAYER_1)
+        classUnderTest.increasePoint(player1)
+        classUnderTest.increasePoint(player1)
+        classUnderTest.increasePoint(player1)
+        classUnderTest.increasePoint(player1)
+        classUnderTest.getPoints(player1)
         //Verify
 
     }
