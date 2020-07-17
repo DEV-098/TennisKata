@@ -11,11 +11,13 @@ import org.junit.runners.BlockJUnit4ClassRunner
 @RunWith(BlockJUnit4ClassRunner::class)
 class TennisRepositoryImplTest {
     lateinit var classUnderTest: TennisRepositoryImpl
-    private val player1 = Player.Player1("Player 1")
-    private val player2 = Player.Player2("Player 2")
+    private val player1 = Player("Player 1")
+    private val player2 = Player("Player 2")
+
     @Before
     fun setup() {
         classUnderTest = TennisRepositoryImpl()
+        classUnderTest.startGame(player1, player2)
     }
 
     @Test
@@ -71,6 +73,5 @@ class TennisRepositoryImplTest {
         classUnderTest.increasePoint(player1)
         classUnderTest.getPoints(player1)
         //Verify
-
     }
 }

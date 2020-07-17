@@ -1,9 +1,6 @@
 package com.tenniskata.data
 
-sealed class Player(name: String) {
-    data class Player1(val name: String) : Player(name)
-    data class Player2(val name: String) : Player(name)
-}
+data class Player(val name: String)
 
 enum class Points(val text: String, val points: Int, val position: Int) {
     LOVE("Love", 0, 0),
