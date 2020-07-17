@@ -47,4 +47,16 @@ class TennisRepositoryImplTest {
         //Verify
         assertScores(Points.FIFTEEN, Points.FIFTEEN)
     }
+
+    @Test
+    fun `when increasePoint is called 3 time getPoints should return Points_Forty`() {
+        //When
+        //Then
+        classUnderTest.increasePoint(Player.PLAYER_1)
+        classUnderTest.increasePoint(Player.PLAYER_1)
+        classUnderTest.increasePoint(Player.PLAYER_1)
+        //Verify
+
+        assertScores(Points.FORTY, Points.LOVE)
+    }
 }
