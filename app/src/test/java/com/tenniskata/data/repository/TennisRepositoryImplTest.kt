@@ -102,4 +102,20 @@ class TennisRepositoryImplTest {
         //verify
         assert(result is GameState.Deuce)
     }
+
+    @Test
+    fun `when GameStarts and both player scored exactly 3 times and then player1 scores advantage the game should be in deuce state`() {
+        //when
+        //then
+        classUnderTest.increasePoint(player1)
+        classUnderTest.increasePoint(player2)
+        classUnderTest.increasePoint(player1)
+        classUnderTest.increasePoint(player2)
+        classUnderTest.increasePoint(player1)
+        classUnderTest.increasePoint(player2)
+        val result = classUnderTest.increasePoint(player1)
+        //verify
+        assert(result is GameState.Advantage)
+        Assert.assertEquals(player1, (result as GameState.Advantage).player)
+    }
 }

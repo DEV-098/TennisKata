@@ -30,8 +30,22 @@ class TennisRepositoryImpl : TennisRepository {
             isAnyPlayerAbsent() -> GameState.GameNotStarted
             isInProgress() -> GameState.InProgress(getPoints(player1), getPoints(player2))
             isDeuce() -> GameState.Deuce
+            isAdvantage() -> GameState.Advantage(getAdvantagePlayer())
             else -> throw IllegalStateException("No Proper State")
         }
+    }
+
+    private fun getAdvantagePlayer(): Player {
+        return if (player1Points > player2Points) {
+            player1
+        } else {
+            player2
+        }
+    }
+
+    private fun isAdvantage(): Boolean {
+        return getPoints(player1) == Points.ADVANTAGE ||
+                getPoints(player2) == Points.ADVANTAGE
     }
 
     private fun isDeuce(): Boolean {
@@ -58,6 +72,7 @@ class TennisRepositoryImpl : TennisRepository {
             Points.FIFTEEN.position -> Points.FIFTEEN
             Points.THIRTY.position -> Points.THIRTY
             Points.FORTY.position -> Points.FORTY
+            Points.ADVANTAGE.position -> Points.ADVANTAGE
             else -> throw IllegalStateException("Invalid Points")
         }
     }
