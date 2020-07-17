@@ -59,4 +59,17 @@ class TennisRepositoryImplTest {
 
         assertScores(Points.FORTY, Points.LOVE)
     }
+
+    @Test(expected = IllegalStateException::class)
+    fun `when increasePoint is called 4 time getPoints should throw IllegalStateException`() {
+        //When
+        //Then
+        classUnderTest.increasePoint(Player.PLAYER_1)
+        classUnderTest.increasePoint(Player.PLAYER_1)
+        classUnderTest.increasePoint(Player.PLAYER_1)
+        classUnderTest.increasePoint(Player.PLAYER_1)
+        classUnderTest.getPoints(Player.PLAYER_1)
+        //Verify
+
+    }
 }
