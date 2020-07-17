@@ -28,4 +28,14 @@ class TennisRepositoryImplTest {
         Assert.assertEquals(Points.LOVE, player1Points)
         Assert.assertEquals(Points.LOVE, player2Points)
     }
+
+    @Test
+    fun `when increasePoint is called once getPoints should return Points_Fifteen`() {
+        //When
+        //Then
+        classUnderTest.increasePoint(Player.PLAYER_1)
+        //Verify
+        val points = classUnderTest.getPoints(Player.PLAYER_1)
+        Assert.assertEquals(Points.FIFTEEN, points)
+    }
 }
