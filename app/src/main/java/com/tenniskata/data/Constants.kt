@@ -11,6 +11,7 @@ enum class Points(val text: String, val points: Int, val position: Int) {
 
 sealed class GameState {
     object GameNotStarted: GameState()
+    object Deuce: GameState()
     data class InProgress(val player1Points: Points, val player2Points: Points) : GameState()
     data class PlayerWins(val player: Player) : GameState()
 }

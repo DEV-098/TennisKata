@@ -29,12 +29,17 @@ class TennisRepositoryImpl : TennisRepository {
         return when {
             isAnyPlayerAbsent() -> GameState.GameNotStarted
             isInProgress() -> GameState.InProgress(getPoints(player1), getPoints(player2))
+            isDeuce() -> GameState.Deuce
             else -> throw IllegalStateException("No Proper State")
         }
     }
 
+    private fun isDeuce(): Boolean {
+        return player1Points == Points.FORTY.position && player2Points == Points.FORTY.position
+    }
+
     private fun isInProgress(): Boolean {
-        return player1Points < Points.FORTY.points || player2Points < Points.FORTY.points
+        return player1Points < Points.FORTY.position || player2Points < Points.FORTY.position
     }
 
     private fun isAnyPlayerAbsent(): Boolean {

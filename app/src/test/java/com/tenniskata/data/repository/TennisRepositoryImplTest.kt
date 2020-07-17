@@ -87,4 +87,19 @@ class TennisRepositoryImplTest {
         //verify
         assert(result is GameState.InProgress)
     }
+
+
+    @Test
+    fun `when GameStarts and both player scored exactly 3 times the game should be in deuce state`() {
+        //when
+        //then
+        classUnderTest.increasePoint(player1)
+        classUnderTest.increasePoint(player2)
+        classUnderTest.increasePoint(player1)
+        classUnderTest.increasePoint(player2)
+        classUnderTest.increasePoint(player1)
+        val result = classUnderTest.increasePoint(player2)
+        //verify
+        assert(result is GameState.Deuce)
+    }
 }
