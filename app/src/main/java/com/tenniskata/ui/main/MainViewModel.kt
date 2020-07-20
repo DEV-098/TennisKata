@@ -19,4 +19,12 @@ class MainViewModel(private val repository: TennisRepository) : ViewModel() {
         player2 = Player(player2Name)
         _state.postValue(repository.startGame(player1, player2))
     }
+
+    fun increasePlayer1Point() {
+        _state.postValue(repository.increasePoint(player1))
+    }
+
+    fun increasePlayer2Point() {
+        _state.postValue(repository.increasePoint(player2))
+    }
 }

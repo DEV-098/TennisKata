@@ -6,10 +6,8 @@ import com.tenniskata.GameState
 import com.tenniskata.Player
 import com.tenniskata.Points
 import com.tenniskata.data.repository.TennisRepository
-import io.mockk.MockKAnnotations
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.verify
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -34,22 +32,53 @@ class MainViewModelTest {
     private val player1 = Player("Player 1")
     private val player2 = Player("Player 2")
 
+    private var gameState: GameState = GameState.InProgress(Points.LOVE, Points.LOVE)
     @Before
     fun setup() {
         MockKAnnotations.init(this)
         classUnderTest = MainViewModel(repository)
         classUnderTest.state.observeForever(observer)
         every { observer.onChanged(any()) } returns Unit
+        every { repository.startGame(any(), any()) } returns gameState
+
+        classUnderTest.startGame(player1.name, player2.name)
     }
 
     @Test
     fun `when startGame is called state should be changed to GameInProgress with Both Players having Love score`() {
         //when
-        val gameState = GameState.InProgress(Points.LOVE, Points.LOVE)
-        every { repository.startGame(any(), any()) } returns gameState
         //then
         classUnderTest.startGame(player1.name, player2.name)
         //verify
         verify { observer.onChanged(gameState) }
+    }
+
+    @Test
+    fun `when increasePlayer1Points is called repositories increase point should be called with Player1's object`() {
+        //when
+        gameState = mockk()
+        val playerSlot = slot<Player>()
+        every { repository.increasePoint(capture(playerSlot)) } returns gameState
+        //then
+        classUnderTest.increasePlayer1Point()
+        //verify
+        verify { observer.onChanged(gameState) }
+        verify { repository.increasePoint(playerSlot.captured) }
+        assert(playerSlot.captured.name == player1.name)
+    }
+
+
+    @Test
+    fun `when increasePlayer2Points is called repositories increase point should be called with Player2's object`() {
+        //when
+        gameState = mockk()
+        val playerSlot = slot<Player>()
+        every { repository.increasePoint(capture(playerSlot)) } returns gameState
+        //then
+        classUnderTest.increasePlayer2Point()
+        //verify
+        verify { observer.onChanged(gameState) }
+        verify { repository.increasePoint(playerSlot.captured) }
+        assert(playerSlot.captured.name == player2.name)
     }
 }
