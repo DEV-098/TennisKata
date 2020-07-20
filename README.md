@@ -1,10 +1,10 @@
 TennisKata - Ground Tennis game score counter
 =============================================
 
-##General info
+## General info
   - A simple ground tennis game score counter for each player following tennis rules
 
-##Features
+## Features
   - Can add player names for each games
   - lets you see the progress of the game
   - each players has their own score boards to follow their score
