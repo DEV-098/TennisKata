@@ -40,8 +40,6 @@ class MainViewModelTest {
         classUnderTest.state.observeForever(observer)
         every { observer.onChanged(any()) } returns Unit
         every { repository.startGame(any(), any()) } returns gameState
-
-        classUnderTest.startGame(player1.name, player2.name)
     }
 
     @Test
@@ -54,12 +52,22 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `when increasePlayer1Points is called repositories increase point should be called with Player1's object`() {
+    fun `when increasePlayer1Points is called before game started then the state should be in GameNotStarted`() {
+        //when
+        //then
+        classUnderTest.increasePlayer1Point()
+        //verify
+        verify { observer.onChanged(GameState.GameNotStarted) }
+    }
+
+    @Test
+    fun `when increasePlayer1Points is called after game started repositories increase point should be called with Player1's object`() {
         //when
         gameState = mockk()
         val playerSlot = slot<Player>()
         every { repository.increasePoint(capture(playerSlot)) } returns gameState
         //then
+        classUnderTest.startGame(player1.name, player2.name)
         classUnderTest.increasePlayer1Point()
         //verify
         verify { observer.onChanged(gameState) }
@@ -69,12 +77,22 @@ class MainViewModelTest {
 
 
     @Test
+    fun `when increasePlayer2Points is called before game started then the state should be in GameNotStarted`() {
+        //when
+        //then
+        classUnderTest.increasePlayer2Point()
+        //verify
+        verify { observer.onChanged(GameState.GameNotStarted) }
+    }
+
+    @Test
     fun `when increasePlayer2Points is called repositories increase point should be called with Player2's object`() {
         //when
         gameState = mockk()
         val playerSlot = slot<Player>()
         every { repository.increasePoint(capture(playerSlot)) } returns gameState
         //then
+        classUnderTest.startGame(player1.name, player2.name)
         classUnderTest.increasePlayer2Point()
         //verify
         verify { observer.onChanged(gameState) }

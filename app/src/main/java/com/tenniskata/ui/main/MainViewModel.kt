@@ -21,10 +21,18 @@ class MainViewModel(private val repository: TennisRepository) : ViewModel() {
     }
 
     fun increasePlayer1Point() {
-        _state.postValue(repository.increasePoint(player1))
+        if (!::player1.isInitialized) {
+            _state.postValue(GameState.GameNotStarted)
+        } else {
+            _state.postValue(repository.increasePoint(player1))
+        }
     }
 
     fun increasePlayer2Point() {
-        _state.postValue(repository.increasePoint(player2))
+        if (!::player2.isInitialized) {
+            _state.postValue(GameState.GameNotStarted)
+        } else {
+            _state.postValue(repository.increasePoint(player2))
+        }
     }
 }
