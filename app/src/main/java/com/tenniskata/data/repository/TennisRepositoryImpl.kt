@@ -10,9 +10,9 @@ class TennisRepositoryImpl : TennisRepository {
     private lateinit var player1: Player
     private lateinit var player2: Player
 
-    override fun startGame(player1: Player, player2: Player): GameState {
-        this.player1 = player1
-        this.player2 = player2
+    override fun startGame(player1Name: Player, player2Name: Player): GameState {
+        this.player1 = player1Name
+        this.player2 = player2Name
         player1Points = Points.LOVE.numberOfBallWins
         player2Points = Points.LOVE.numberOfBallWins
         return getState()

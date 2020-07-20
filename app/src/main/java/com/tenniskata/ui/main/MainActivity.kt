@@ -1,4 +1,4 @@
-package com.tenniskata.ui
+package com.tenniskata.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
