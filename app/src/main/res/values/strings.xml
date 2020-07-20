@@ -1,11 +1,15 @@
 <resources>
     <string name="app_name">TennisKata</string>
-    <string name="game_status_label">"Game Status: "</string>
-    <string name="game_not_started">Game not started yet</string>
+    <string name="game_not_started">Not Started</string>
+    <string name="game_in_progress">In Progress</string>
+    <string name="deuces">Deuces</string>
+    <string name="advantage">Advantage For %1$s</string>
+    <string name="game_over">Game Over. Winner is %1$s</string>
     <string name="player_1_name">Player 1</string>
     <string name="player_2">Player 2</string>
     <string name="score">Score</string>
     <string name="click_here_to_score_for_player_1">Click Here to score for Player 1</string>
     <string name="click_here_to_score">Click Here to score</string>
     <string name="start">Start</string>
+    <string name="game_status">Game Status: %1$s</string>
 </resources>

@@ -1,6 +1,6 @@
 package com.tenniskata
 
-data class Player(val name: String)
+class Player(val name: String)
 
 enum class Points(val text: String, val points: Int, val numberOfBallWins: Int) {
     LOVE("Love", 0, 0),
