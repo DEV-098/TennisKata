@@ -1,8 +1,8 @@
 package com.tenniskata.data.repository
 
-import com.tenniskata.data.GameState
-import com.tenniskata.data.Player
-import com.tenniskata.data.Points
+import com.tenniskata.GameState
+import com.tenniskata.Player
+import com.tenniskata.Points
 
 class TennisRepositoryImpl : TennisRepository {
     private var player1Points: Int = Points.LOVE.numberOfBallWins

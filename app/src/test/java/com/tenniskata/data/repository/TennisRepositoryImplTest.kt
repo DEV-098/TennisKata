@@ -1,8 +1,8 @@
 package com.tenniskata.data.repository
 
-import com.tenniskata.data.GameState
-import com.tenniskata.data.Player
-import com.tenniskata.data.Points
+import com.tenniskata.GameState
+import com.tenniskata.Player
+import com.tenniskata.Points
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -11,7 +11,7 @@ import org.junit.runners.BlockJUnit4ClassRunner
 
 @RunWith(BlockJUnit4ClassRunner::class)
 class TennisRepositoryImplTest {
-    lateinit var classUnderTest: TennisRepositoryImpl
+    private lateinit var classUnderTest: TennisRepositoryImpl
     private val player1 = Player("Player 1")
     private val player2 = Player("Player 2")
 

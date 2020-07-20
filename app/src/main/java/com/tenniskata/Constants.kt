@@ -1,4 +1,4 @@
-package com.tenniskata.data
+package com.tenniskata
 
 data class Player(val name: String)
 
