@@ -25,9 +25,11 @@ class TennisRepositoryImplTest {
     fun `initially when game starts for both players the points should be Love`() {
         //When
         //Then
-
+        val result = classUnderTest.startGame(player1, player2)
         //Verify
-        assertScores(Points.LOVE, Points.LOVE)
+        assert(result is GameState.InProgress)
+        Assert.assertEquals(Points.LOVE, (result as GameState.InProgress).player1Points)
+        Assert.assertEquals(Points.LOVE, result.player2Points)
     }
 
     private fun assertScores(expectedPlayer1Points: Points, expectedPlayer2Points: Points) {

@@ -5,7 +5,7 @@ import com.tenniskata.Player
 import com.tenniskata.Points
 
 interface TennisRepository {
-    fun startGame(player1: Player, player2: Player)
+    fun startGame(player1: Player, player2: Player): GameState
     fun increasePoint(player: Player): GameState
     fun getPoints(player: Player): Points
 }
